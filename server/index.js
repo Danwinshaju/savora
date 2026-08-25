@@ -23,7 +23,12 @@ function catalogue() {
   });
 }
 
-const products = catalogue();
+const products = catalogue().concat([
+  { id: 'featured-sweet-box', name: 'Sweet Box', category: 'sweets', price: 250, image: '/assets/image/sweets/1.avif', weight: '500 g', rating: 4.8, description: 'A fresh selection of traditional Indian sweets.' },
+  { id: 'featured-healthy-snacks', name: 'Healthy Snacks', category: 'snacks', price: 180, image: '/assets/image/snacks/2.avif', weight: '250 g', rating: 4.8, description: 'A wholesome snack selection prepared fresh.' },
+  { id: 'featured-pickles', name: 'Pickles', category: 'pickles', price: 220, image: '/assets/image/pickles/4.jpg', weight: '250 g', rating: 4.8, description: 'Traditional pickles with rich homemade flavour.' },
+  { id: 'featured-masala-podi', name: 'Masala Podi', category: 'masala', price: 150, image: '/assets/image/masala/2.avif', weight: '250 g', rating: 4.8, description: 'An aromatic traditional masala podi blend.' }
+]);
 const memoryOrders = [];
 let databaseReady = false;
 const orderSchema = new mongoose.Schema({ customer: Object, items: Array, total: Number, status: { type: String, default: 'received' } }, { timestamps: true });
