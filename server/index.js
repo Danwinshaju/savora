@@ -75,7 +75,15 @@ app.post('/api/newsletter', async (req, res) => {
 });
 
 app.use((req, res, next) => /^\/(node_modules|server|package(?:-lock)?\.json|\.env)/.test(req.path) ? res.sendStatus(404) : next());
-app.use(express.static(root, { extensions: ['html'] }));
+app.use(express.static(root, {
+  extensions: ['html'],
+  etag: true,
+  maxAge: '7d',
+  setHeaders(res, filePath) {
+    if (filePath.endsWith('.html')) res.setHeader('Cache-Control', 'no-cache');
+    else if (/\.(?:avif|webp|png|jpe?g|gif|svg|woff2?)$/i.test(filePath)) res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+  }
+}));
 if (path.resolve(process.argv[1] || '') === fileURLToPath(import.meta.url)) {
   app.listen(port, () => console.log(`SAVORA running at http://localhost:${port}`));
 }
